@@ -5,7 +5,7 @@ on:
     branches: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
-  workflow_dispatch: # Allows you to trigger the build manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,19 +26,16 @@ jobs:
           pkg-config \
           bison \
           flex \
-          gawk
+          gawk \
+          binutils-dev
 
     - name: Build objtool
       run: |
-        # Navigate to the objtool source directory
         cd tools/objtool
-        
-        # Build the standalone binary
         make
 
     - name: Verify objtool binary
       run: |
-        # Ensure the binary exists and can execute
         if [ -f "tools/objtool/objtool" ]; then
           echo "objtool built successfully!"
           ./tools/objtool/objtool --help || true
